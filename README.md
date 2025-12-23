@@ -1,4 +1,4 @@
-# 🎯 Protocol: REBOOT
+# 🎯 Protocol: addiction-control-app
 
 > **60 Din Mein Poori Kaaya Palat** — A 120-Day Self-Improvement & Addiction Control Web Application
 
