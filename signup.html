@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROTOCOL: REBOOT - Signup</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="auth-screen">
+        <div class="auth-container">
+            <h1 class="auth-title glitch-text" data-text="PROTOCOL: REBOOT">PROTOCOL: REBOOT</h1>
+            <p class="auth-subtitle">Create Your Identity</p>
+
+            <form id="signupForm" class="auth-form">
+                <h3 class="text-center">NEW USER REGISTRATION</h3>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label" for="name">Name</label>
+                        <input type="text" id="name" name="name" class="form-input" placeholder="YOUR NAME" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email</label>
+                        <input type="email" id="email" name="email" class="form-input" placeholder="EMAIL" required>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label" for="password">Passphrase</label>
+                        <input type="password" id="password" name="password" class="form-input" placeholder="PASSWORD"
+                            required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="confirmPassword">Confirm</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" class="form-input"
+                            placeholder="CONFIRM" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-block">
+                    INITIALIZE PROTOCOL
+                </button>
+
+                <p class="auth-switch">
+                    Already registered? <a href="index.html">Access Terminal</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Clock Widget -->
+    <div class="clock-widget">
+        <div class="clock-time" id="clock-time">--:--:--</div>
+        <div class="clock-date" id="clock-date">Loading...</div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Clock update
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const mins = String(now.getMinutes()).padStart(2, '0');
+            const secs = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock-time').textContent = `${hours}:${mins}:${secs}`;
+
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            document.getElementById('clock-date').textContent = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]}`;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        document.getElementById('signupForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                showNotification('PASSPHRASE MISMATCH', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showNotification('PASSPHRASE TOO WEAK - Min 6 chars', 'error');
+                return;
+            }
+
+            const existingUser = JSON.parse(localStorage.getItem('user'));
+            if (existingUser && existingUser.email === email) {
+                showNotification('IDENTITY EXISTS - Login instead', 'error');
+                return;
+            }
+
+            const user = {
+                name: name,
+                email: email,
+                password: password,
+                createdAt: new Date().toISOString()
+            };
+
+            localStorage.setItem('user', JSON.stringify(user));
+
+            const appData = {
+                currentDay: 1,
+                streak: 0,
+                addictionBreaks: 0,
+                penaltyLevel: 0,
+                pythonProgress: 0,
+                genaiProgress: 0,
+                genaiDay: 0,
+                completedDays: [],
+                startDate: new Date().toISOString(),
+                lastStreakDate: null,
+                testMode: false,
+                bootcampMode: true,
+                checklistHistory: {}
+            };
+
+            localStorage.setItem('appData', JSON.stringify(appData));
+
+            showNotification('IDENTITY ESTABLISHED', 'success');
+
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000);
+        });
+
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+</body>
+
+</html>

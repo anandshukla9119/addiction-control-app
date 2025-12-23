@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROTOCOL: REBOOT - Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="dashboard.html" class="header-brand">// PROTOCOL: REBOOT</a>
+
+            <nav class="header-nav">
+                <a href="dashboard.html" class="active">Dashboard</a>
+                <a href="routine.html">Routine</a>
+                <a href="checklist.html">Checklist</a>
+                <a href="learning.html">Learning</a>
+                <a href="movies.html">Movies</a>
+                <a href="progress.html">Progress</a>
+            </nav>
+
+            <div class="header-stats">
+                <div class="stat-box">
+                    <div class="stat-label">Day</div>
+                    <div class="stat-value success" id="day-display">1</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Streak</div>
+                    <div class="stat-value success" id="streak-display">0</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Penalty</div>
+                    <div class="stat-value danger" id="penalty-display">0</div>
+                </div>
+                <button id="logout-btn" class="btn btn-outline btn-sm">EXIT</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 2rem; padding-bottom: 2rem;">
+        <!-- Date & Status -->
+        <div class="card mb-lg" style="text-align: center;">
+            <h2 id="date-display" class="text-green">Loading...</h2>
+            <p id="greeting" class="text-muted mt-sm"></p>
+            <p id="day-note" class="text-yellow mt-sm"></p>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="stats-grid">
+            <div class="stat-card card-accent-green">
+                <div class="stat-card-value text-green" id="current-day">1</div>
+                <div class="stat-card-label">Current Day</div>
+            </div>
+            <div class="stat-card card-accent-blue">
+                <div class="stat-card-value text-blue" id="current-streak">0</div>
+                <div class="stat-card-label">Streak Days</div>
+            </div>
+            <div class="stat-card card-accent-red">
+                <div class="stat-card-value text-red" id="penalty-level">0</div>
+                <div class="stat-card-label">Penalty Level</div>
+            </div>
+            <div class="stat-card card-accent-yellow">
+                <div class="stat-card-value text-yellow" id="addiction-breaks">0</div>
+                <div class="stat-card-label">Breaks</div>
+            </div>
+        </div>
+
+        <!-- Navigation Cards -->
+        <div class="nav-cards">
+            <a href="routine.html" class="nav-card card-routine">
+                <div class="nav-card-icon"><i class="fa-solid fa-clock"></i></div>
+                <div class="nav-card-title">Routine</div>
+            </a>
+            <a href="checklist.html" class="nav-card card-checklist">
+                <div class="nav-card-icon"><i class="fa-solid fa-clipboard-check"></i></div>
+                <div class="nav-card-title">Checklist</div>
+            </a>
+            <a href="learning.html" class="nav-card card-learning">
+                <div class="nav-card-icon"><i class="fa-solid fa-code"></i></div>
+                <div class="nav-card-title">Learning</div>
+            </a>
+            <a href="movies.html" class="nav-card card-movies">
+                <div class="nav-card-icon"><i class="fa-solid fa-film"></i></div>
+                <div class="nav-card-title">Movies</div>
+            </a>
+            <a href="progress.html" class="nav-card card-progress">
+                <div class="nav-card-icon"><i class="fa-solid fa-chart-line"></i></div>
+                <div class="nav-card-title">Progress</div>
+            </a>
+            <a href="streak.html" class="nav-card card-streak">
+                <div class="nav-card-icon"><i class="fa-solid fa-fire"></i></div>
+                <div class="nav-card-title">Streak</div>
+            </a>
+            <a href="bootcamp.html" class="nav-card card-bootcamp">
+                <div class="nav-card-icon"><i class="fa-solid fa-dumbbell"></i></div>
+                <div class="nav-card-title">Bootcamp</div>
+            </a>
+        </div>
+
+        <!-- Action Cards - 4 in a row -->
+        <div class="action-cards">
+            <!-- Streak Check-In Card -->
+            <div class="action-card card-accent-green">
+                <div class="card-header"><i class="fa-solid fa-fire"></i> STREAK</div>
+                <p id="streak-status" class="action-status">Loading...</p>
+                <a href="streak.html" class="btn btn-success">MARK [08:00-08:30]</a>
+            </div>
+
+            <!-- Today's Focus -->
+            <div class="action-card card-accent-blue">
+                <div class="card-header"><i class="fa-solid fa-book"></i> LEARNING</div>
+                <div id="learning-preview" class="action-status">
+                    <p class="text-muted">Loading...</p>
+                </div>
+                <a href="learning.html" class="btn btn-outline">VIEW TRACK</a>
+            </div>
+
+            <!-- Night Checklist Status -->
+            <div class="action-card card-accent-yellow">
+                <div class="card-header"><i class="fa-solid fa-list-check"></i> CHECKLIST</div>
+                <p id="checklist-status" class="action-status">Loading...</p>
+                <a href="checklist.html" class="btn btn-outline">GO [22:00-23:00]</a>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="action-card card-accent-red">
+                <div class="card-header"><i class="fa-solid fa-skull-crossbones"></i> DANGER</div>
+                <p class="action-status text-muted">Addiction break?</p>
+                <button id="break-btn" class="btn btn-danger">REPORT BREAK</button>
+            </div>
+        </div>
+
+        <!-- Warnings Section -->
+        <div id="warnings-section" class="mt-xl hidden">
+            <h3 class="text-red mb-md">[!] ACTIVE WARNINGS</h3>
+            <div id="warnings-list"></div>
+        </div>
+
+        <!-- Today's Schedule -->
+        <div class="card card-accent-blue mt-xl">
+            <div class="card-header">[*] TODAY'S SCHEDULE</div>
+            <div id="today-schedule">
+                <!-- Will be populated by JS -->
+            </div>
+            <a href="routine.html" class="btn btn-outline btn-block mt-md">VIEW FULL ROUTINE</a>
+        </div>
+
+        <!-- Movies Banner (Fri/Sat only) -->
+        <div id="movies-banner" class="card card-accent-purple mt-xl hidden">
+            <div class="card-header">[*] MOVIE DAY</div>
+            <p>It's Friday/Saturday - Entertainment is allowed today!</p>
+            <a href="movies.html" class="btn btn-outline mt-md">VIEW RECOMMENDATIONS</a>
+        </div>
+
+        <!-- Bootcamp Banner -->
+        <div id="bootcamp-banner" class="card card-accent-yellow mt-xl hidden">
+            <div class="card-header">[!] BOOTCAMP MODE ACTIVE</div>
+            <p>7-day strict discipline mode. No excuses!</p>
+            <a href="bootcamp.html" class="btn btn-outline mt-md">VIEW BOOTCAMP</a>
+        </div>
+    </main>
+
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Clock Widget -->
+    <div class="clock-widget">
+        <div class="clock-time" id="clock-time">--:--:--</div>
+        <div class="clock-date" id="clock-date">Loading...</div>
+    </div>
+
+    <!-- Addiction Break Modal -->
+    <div id="addiction-modal" class="overlay hidden">
+        <div class="penalty-box">
+            <h1 class="penalty-title">// CONFIRM BREAK //</h1>
+            <p class="penalty-message">
+                Kya tu sach mein addiction break report kar raha hai?<br><br>
+                Agar tune cigarette piya ya satta khela to sab RESET ho jayega!<br><br>
+                Soch le ek baar...
+            </p>
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <button id="cancel-break" class="btn btn-success" style="flex: 1;">
+                    NAHI, MAINE NAHI KIYA
+                </button>
+                <button id="confirm-break" class="btn btn-danger" style="flex: 1;">
+                    HAAN, MAINE KIYA
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="data/routine-data.js"></script>
+    <script src="data/brutal-messages.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        // Clock update
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const mins = String(now.getMinutes()).padStart(2, '0');
+            const secs = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock-time').textContent = `${hours}:${mins}:${secs}`;
+
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            document.getElementById('clock-date').textContent = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]}`;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // Check login
+        checkLogin();
+
+        // Initialize Dashboard
+        initDashboard();
+
+        function initDashboard() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            const appData = JSON.parse(localStorage.getItem('appData'));
+
+            if (!user || !appData) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Update current day
+            updateCurrentDay();
+
+            // Reload appData after update
+            const updatedData = JSON.parse(localStorage.getItem('appData'));
+
+            // Set greeting
+            const hour = new Date().getHours();
+            let greeting = 'Namaste';
+            if (hour < 12) greeting = 'Suprabhat';
+            else if (hour < 17) greeting = 'Namaste';
+            else if (hour < 21) greeting = 'Shubh Sandhya';
+            else greeting = 'Shubh Ratri';
+
+            document.getElementById('greeting').textContent = `${greeting}, ${user.name}`;
+
+            // Update stats
+            document.getElementById('day-display').textContent = updatedData.currentDay;
+            document.getElementById('streak-display').textContent = updatedData.streak;
+            document.getElementById('penalty-display').textContent = updatedData.penaltyLevel || 0;
+            document.getElementById('current-day').textContent = updatedData.currentDay;
+            document.getElementById('current-streak').textContent = updatedData.streak;
+            document.getElementById('penalty-level').textContent = updatedData.penaltyLevel || 0;
+            document.getElementById('addiction-breaks').textContent = updatedData.addictionBreaks;
+
+            // Today's date
+            const today = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('date-display').textContent = `DAY ${updatedData.currentDay} | ${today.toLocaleDateString('en-IN', options)}`;
+
+            // Day note
+            const dayNote = getDayNote(updatedData.currentDay);
+            document.getElementById('day-note').textContent = dayNote;
+
+            // Streak status
+            checkStreakStatus();
+
+            // Checklist status
+            checkChecklistStatus();
+
+            // Learning preview
+            updateLearningPreview(updatedData.currentDay);
+
+            // Load today's schedule
+            loadTodaySchedule();
+
+            // Check for warnings
+            updateWarnings(updatedData);
+
+            // Check movies availability
+            checkMoviesAvailability();
+
+            // Check bootcamp
+            if (updatedData.currentDay <= 7 && updatedData.bootcampMode) {
+                document.getElementById('bootcamp-banner').classList.remove('hidden');
+            }
+
+            // Test mode indicator
+            if (updatedData.testMode) {
+                document.body.classList.add('test-mode');
+            }
+        }
+
+        function getDayNote(day) {
+            const notes = {
+                1: "DAY 1 - NAYA JANAM! Aaj se naya tu.",
+                2: "DAY 2 - Sabse mushkil din. FIGHT BACK!",
+                3: "DAY 3 - Body adjust ho rahi hai.",
+                7: "1 WEEK COMPLETE! Bahut bada milestone.",
+                14: "2 WEEKS! Teri willpower strong ho rahi hai.",
+                21: "3 WEEKS! 21 din me habit banti hai.",
+                30: "1 MONTH CLEAN! Champion!",
+                45: "45 DAYS! Python phase complete.",
+                60: "60 DAYS COMPLETE! Legend!"
+            };
+            return notes[day] || `Day ${day} - Stay focused, stay strong!`;
+        }
+
+        function updateCurrentDay() {
+            const appData = JSON.parse(localStorage.getItem('appData'));
+            const startDate = new Date(appData.startDate);
+            const today = new Date();
+
+            startDate.setHours(0, 0, 0, 0);
+            today.setHours(0, 0, 0, 0);
+
+            const diffTime = today - startDate;
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+            // Main counter shows actual day (no cap at 60)
+            appData.currentDay = Math.max(1, diffDays);
+
+            // GenAI day continues after 45 (no limit)
+            if (diffDays > 45) {
+                appData.genaiDay = diffDays - 45;
+            } else {
+                appData.genaiDay = 0;
+            }
+
+            localStorage.setItem('appData', JSON.stringify(appData));
+        }
+
+        function checkStreakStatus() {
+            const appData = JSON.parse(localStorage.getItem('appData'));
+            const now = new Date();
+            const hour = now.getHours();
+            const minutes = now.getMinutes();
+            const currentTime = hour * 60 + minutes;
+
+            const streakStart = 8 * 60; // 8:00 AM
+            const streakEnd = 8 * 60 + 30; // 8:30 AM
+
+            const statusEl = document.getElementById('streak-status');
+
+            const today = now.toDateString();
+            const lastStreak = appData.lastStreakDate ? new Date(appData.lastStreakDate).toDateString() : null;
+
+            if (lastStreak === today) {
+                statusEl.innerHTML = '<span class="text-green">[OK] Streak claimed for today!</span>';
+            } else if (currentTime >= streakStart && currentTime <= streakEnd) {
+                statusEl.innerHTML = '<span class="text-green">[!] WINDOW OPEN - CLAIM NOW!</span>';
+            } else if (currentTime < streakStart) {
+                statusEl.innerHTML = '<span class="text-muted">[--] Waiting for window (08:00 - 08:30)</span>';
+            } else {
+                statusEl.innerHTML = '<span class="text-red">[X] Window missed today. Penalty pending.</span>';
+            }
+        }
+
+        function checkChecklistStatus() {
+            const appData = JSON.parse(localStorage.getItem('appData'));
+            const now = new Date();
+            const hour = now.getHours();
+
+            const statusEl = document.getElementById('checklist-status');
+            const today = now.toDateString();
+            const submitted = appData.checklistHistory && appData.checklistHistory[today];
+
+            if (submitted) {
+                statusEl.innerHTML = '<span class="text-green">[OK] Already submitted today.</span>';
+            } else if (hour >= 22 && hour < 23) {
+                statusEl.innerHTML = '<span class="text-yellow">[!] WINDOW OPEN - Submit your checklist!</span>';
+            } else {
+                statusEl.innerHTML = '<span class="text-muted">[--] Opens at 22:00</span>';
+            }
+        }
+
+        function updateLearningPreview(day) {
+            const container = document.getElementById('learning-preview');
+            const isPython = day <= 45;
+            const genaiDay = day > 45 ? day - 45 : 0;
+
+            if (isPython) {
+                container.innerHTML = `
+                    <p><strong class="text-blue">PYTHON MASTERY</strong></p>
+                    <p class="mt-sm"><strong>Phase:</strong> Day ${day}/45</p>
+                    <p><strong>Duration:</strong> 45 minutes</p>
+                `;
+            } else {
+                container.innerHTML = `
+                    <p><strong class="text-purple">GEN AI DEEP DIVE</strong></p>
+                    <p class="mt-sm"><strong>GenAI Day:</strong> ${genaiDay} ${genaiDay > 15 ? '(CONTINUED)' : '/15'}</p>
+                    <p><strong>Duration:</strong> 1 hour</p>
+                    <p class="text-muted mt-sm">GenAI learning continues indefinitely!</p>
+                `;
+            }
+        }
+
+        function loadTodaySchedule() {
+            const today = new Date();
+            const dayOfWeek = today.getDay();
+
+            let scheduleHTML = '';
+
+            if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+                scheduleHTML = `
+                    <div class="routine-item">
+                        <div class="routine-time">05:00</div>
+                        <div class="routine-task">
+                            <div class="routine-task-name">Puja-Path</div>
+                        </div>
+                    </div>
+                    <div class="routine-item highlight">
+                        <div class="routine-time">08:00</div>
+                        <div class="routine-task">
+                            <div class="routine-task-name">[!] STREAK MARK - CRITICAL</div>
+                        </div>
+                    </div>
+                    <div class="routine-item">
+                        <div class="routine-time">09:00</div>
+                        <div class="routine-task">
+                            <div class="routine-task-name">Office Start</div>
+                        </div>
+                    </div>
+                    <div class="routine-item">
+                        <div class="routine-time">14:00</div>
+                        <div class="routine-task">
+                            <div class="routine-task-name">Lunch Break</div>
+                        </div>
+                    </div>
+                    <div class="routine-item">
+                        <div class="routine-time">20:00</div>
+                        <div class="routine-task">
+                            <div class="routine-task-name">Office End</div>
+                        </div>
+                    </div>
+                    <div class="routine-item">
+                        <div class="routine-time">21:00</div>
+                        <div class="routine-task">
+                            <div class="routine-task-name">Study Time</div>
+                        </div>
+                    </div>
+                    <div class="routine-item highlight">
+                        <div class="routine-time">22:00</div>
+                        <div class="routine-task">
+                            <div class="routine-task-name">[!] NIGHT CHECKLIST - CRITICAL</div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                scheduleHTML = `
+                    <div class="routine-item">
+                        <div class="routine-time">06:00</div>
+                        <div class="routine-task">
+                            <div class="routine-task-name">Puja-Path</div>
+                        </div>
+                    </div>
+                    <div class="routine-item highlight">
+                        <div class="routine-time">08:00</div>
+                        <div class="routine-task">
+                            <div class="routine-task-name">[!] STREAK MARK - CRITICAL</div>
+                        </div>
+                    </div>
+                    <div class="routine-item">
+                        <div class="routine-time">09:00</div>
+                        <div class="routine-task">
+                            <div class="routine-task-name">Deep Study Session (2-3 Hours)</div>
+                        </div>
+                    </div>
+                    ${dayOfWeek === 6 ? `
+                    <div class="routine-item special">
+                        <div class="routine-time">Evening</div>
+                        <div class="routine-task">
+                            <div class="routine-task-name">Movie Time Allowed</div>
+                        </div>
+                    </div>
+                    ` : `
+                    <div class="routine-item warning">
+                        <div class="routine-time">[!]</div>
+                        <div class="routine-task">
+                            <div class="routine-task-name">NO MOVIES - Kal se Office!</div>
+                        </div>
+                    </div>
+                    `}
+                    <div class="routine-item highlight">
+                        <div class="routine-time">22:00</div>
+                        <div class="routine-task">
+                            <div class="routine-task-name">[!] NIGHT CHECKLIST - CRITICAL</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            document.getElementById('today-schedule').innerHTML = scheduleHTML;
+        }
+
+        function checkMoviesAvailability() {
+            const today = new Date().getDay();
+            if (today === 5 || today === 6) {
+                document.getElementById('movies-banner').classList.remove('hidden');
+            }
+        }
+
+        function updateWarnings(data) {
+            const section = document.getElementById('warnings-section');
+            const list = document.getElementById('warnings-list');
+            const warnings = [];
+
+            if (data.penaltyLevel > 0) {
+                warnings.push(`[!] Penalty Level ${data.penaltyLevel} - Stay focused!`);
+            }
+
+            if (data.addictionBreaks >= 5) {
+                warnings.push('[!!] NUCLEAR ALERT: 5+ breaks detected. Critical zone.');
+            }
+
+            if (data.bootcampMode && data.currentDay <= 7) {
+                warnings.push('[*] BOOTCAMP MODE ACTIVE - 7 days of strict discipline');
+            }
+
+            if (warnings.length > 0) {
+                section.classList.remove('hidden');
+                list.innerHTML = warnings.map(w => `<div class="card card-accent-red mb-sm">${w}</div>`).join('');
+            }
+        }
+
+        // Event Listeners
+        document.getElementById('break-btn').addEventListener('click', function () {
+            document.getElementById('addiction-modal').classList.remove('hidden');
+        });
+
+        document.getElementById('cancel-break').addEventListener('click', function () {
+            document.getElementById('addiction-modal').classList.add('hidden');
+        });
+
+        document.getElementById('confirm-break').addEventListener('click', function () {
+            document.getElementById('addiction-modal').classList.add('hidden');
+            window.location.href = 'penalty.html?trigger=addiction';
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', function () {
+            localStorage.setItem('isLoggedIn', 'false');
+            window.location.href = 'index.html';
+        });
+
+        // Auto-update every minute
+        setInterval(initDashboard, 60000);
+    </script>
+</body>
+
+</html>

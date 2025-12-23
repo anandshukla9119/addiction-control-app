@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROTOCOL: REBOOT - Night Checklist</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="dashboard.html" class="header-brand">// PROTOCOL: REBOOT</a>
+            <nav class="header-nav">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="routine.html">Routine</a>
+                <a href="checklist.html" class="active">Checklist</a>
+                <a href="learning.html">Learning</a>
+                <a href="movies.html">Movies</a>
+                <a href="progress.html">Progress</a>
+            </nav>
+            <div class="header-stats">
+                <div class="stat-box">
+                    <div class="stat-label">Day</div>
+                    <div class="stat-value success" id="day-display">1</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Streak</div>
+                    <div class="stat-value success" id="streak-display">0</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
+        <!-- Title -->
+        <div class="card mb-lg text-center">
+            <h2 class="text-green">NIGHT CHECKLIST</h2>
+            <p class="text-muted mt-sm">Day <span id="current-day">1</span> | Window: 22:00 - 23:00</p>
+        </div>
+
+        <!-- Status Banner -->
+        <div id="status-banner" class="card card-accent-yellow mb-lg">
+            <p id="status-text" class="text-yellow">Checking status...</p>
+        </div>
+
+        <!-- Checklist Form -->
+        <form id="checklist-form">
+            <!-- Today's Performance -->
+            <div class="card card-accent-green mb-lg">
+                <div class="card-header"><i class="fa-solid fa-smoking-ban"></i> TODAY'S PERFORMANCE</div>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="no_cigarette" value="1" id="no-cigarette-check">
+                        <span>Aaj cigarette nahi piya</span>
+                    </label>
+                    <div id="cigarette-input" class="form-group mt-sm" style="padding-left: 2rem;">
+                        <label class="form-label text-green">Nahi peeta to kitne paise bachte? (Rs)</label>
+                        <input type="number" name="cigarette_savings" class="form-input" placeholder="0" min="0"
+                            value="0">
+                        <p class="text-muted" style="font-size: 0.75rem; margin-top: 0.25rem;">Kitne cigarette ka
+                            kharcha bachaya</p>
+                    </div>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="no_satta" value="1" id="no-satta-check">
+                        <span>Aaj satta nahi khela</span>
+                    </label>
+                    <div id="satta-input" class="form-group mt-sm" style="padding-left: 2rem;">
+                        <label class="form-label text-green">Nahi khelta to kitna bachta? (Rs)</label>
+                        <input type="number" name="satta_savings" class="form-input" placeholder="0" min="0" value="0">
+                        <p class="text-muted" style="font-size: 0.75rem; margin-top: 0.25rem;">Kitna satta mein lagata
+                            agar khelta</p>
+                    </div>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="streak_marked" value="1">
+                        <span>Subah streak mark kiya (08:00-08:30)</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Routine Performance -->
+            <div class="card card-accent-blue mb-lg">
+                <div class="card-header">[*] ROUTINE PERFORMANCE</div>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="puja" value="1">
+                        <span>Puja/Path kiya</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="exercise" value="1">
+                        <span>Exercise/Walk kiya</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="healthy_food" value="1">
+                        <span>Healthy khaana khaya</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="water" value="1">
+                        <span>Paani adequate piya (8+ glasses)</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="office" value="1" id="office-check">
+                        <span>Office time pe gaya (weekday only)</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Learning -->
+            <div class="card card-accent-purple mb-lg">
+                <div class="card-header"><i class="fa-solid fa-book-open"></i> LEARNING TRACK</div>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="study" value="1" id="study-check">
+                        <span id="study-label">Aaj study kiya (45 min / 2-3 hrs weekend)</span>
+                    </label>
+                    <div id="study-input" class="form-group mt-sm" style="padding-left: 2rem;">
+                        <label class="form-label text-purple">Kitne minute study kiya?</label>
+                        <input type="number" name="study_minutes" class="form-input" placeholder="0" min="0" value="0">
+                    </div>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="notes" value="1">
+                        <span>Notes banaye ya practice ki</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="study_missed" value="1" id="study-missed-check">
+                        <span class="text-red">Study MISS kiya aaj</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Self Reflection -->
+            <div class="card card-accent-yellow mb-lg">
+                <div class="card-header">[*] SELF REFLECTION</div>
+                <div class="form-group">
+                    <label class="form-label">Aaj kya accha kiya?</label>
+                    <input type="text" name="good_today" class="form-input" placeholder="Type here...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Kal kya improve karunga?</label>
+                    <input type="text" name="improve_tomorrow" class="form-input" placeholder="Type here...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Craving aayi thi? Kaise handle kiya?</label>
+                    <input type="text" name="craving_handle" class="form-input" placeholder="Type here...">
+                </div>
+            </div>
+
+            <!-- Rating -->
+            <div class="card card-accent-green mb-lg">
+                <div class="card-header">[*] TODAY'S RATING</div>
+                <p class="text-muted mb-md">Aaj ka din kaisa raha? (1 = worst, 10 = best)</p>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <label class="checkbox-item" style="width: auto; flex: 0;">
+                        <input type="radio" name="rating" value="1"> <span>1</span>
+                    </label>
+                    <label class="checkbox-item" style="width: auto; flex: 0;">
+                        <input type="radio" name="rating" value="2"> <span>2</span>
+                    </label>
+                    <label class="checkbox-item" style="width: auto; flex: 0;">
+                        <input type="radio" name="rating" value="3"> <span>3</span>
+                    </label>
+                    <label class="checkbox-item" style="width: auto; flex: 0;">
+                        <input type="radio" name="rating" value="4"> <span>4</span>
+                    </label>
+                    <label class="checkbox-item" style="width: auto; flex: 0;">
+                        <input type="radio" name="rating" value="5"> <span>5</span>
+                    </label>
+                    <label class="checkbox-item" style="width: auto; flex: 0;">
+                        <input type="radio" name="rating" value="6"> <span>6</span>
+                    </label>
+                    <label class="checkbox-item" style="width: auto; flex: 0;">
+                        <input type="radio" name="rating" value="7"> <span>7</span>
+                    </label>
+                    <label class="checkbox-item" style="width: auto; flex: 0;">
+                        <input type="radio" name="rating" value="8"> <span>8</span>
+                    </label>
+                    <label class="checkbox-item" style="width: auto; flex: 0;">
+                        <input type="radio" name="rating" value="9"> <span>9</span>
+                    </label>
+                    <label class="checkbox-item" style="width: auto; flex: 0;">
+                        <input type="radio" name="rating" value="10"> <span>10</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="submit-btn" class="btn btn-success btn-block btn-lg" disabled>
+                SUBMIT CHECKLIST
+            </button>
+        </form>
+
+        <!-- Already Submitted Message -->
+        <div id="submitted-message" class="card card-accent-green mt-xl hidden text-center">
+            <h3 class="text-green">[OK] CHECKLIST SUBMITTED</h3>
+            <p class="text-muted mt-sm">Aaj ka checklist already submit ho gaya hai.</p>
+            <p class="text-muted">Rest well. Kal milte hain.</p>
+        </div>
+
+        <a href="dashboard.html" class="btn btn-outline btn-block mt-xl">BACK TO DASHBOARD</a>
+    </main>
+
+    <!-- Clock Widget -->
+    <div class="clock-widget">
+        <div class="clock-time" id="clock-time">--:--:--</div>
+        <div class="clock-date" id="clock-date">Loading...</div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="js/script.js"></script>
+    <script>
+        checkLogin();
+
+        // Clock update
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const mins = String(now.getMinutes()).padStart(2, '0');
+            const secs = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock-time').textContent = `${hours}:${mins}:${secs}`;
+
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            document.getElementById('clock-date').textContent = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]}`;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        const CHECKLIST_START = 22; // 10 PM
+        const CHECKLIST_END = 23; // 11 PM
+
+        function initChecklist() {
+            const appData = JSON.parse(localStorage.getItem('appData'));
+            const now = new Date();
+            const hour = now.getHours();
+            const today = now.toDateString();
+            const dayOfWeek = now.getDay();
+
+            document.getElementById('day-display').textContent = appData.currentDay;
+            document.getElementById('streak-display').textContent = appData.streak;
+            document.getElementById('current-day').textContent = appData.currentDay;
+
+            // Update study label based on day
+            const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+            document.getElementById('study-label').textContent =
+                appData.currentDay <= 45
+                    ? `Python study kiya (${isWeekend ? '2-3 hrs' : '45 min'})`
+                    : `GenAI study kiya (${isWeekend ? '2-3 hrs' : '1 hr'})`;
+
+            // Hide office checkbox on weekends
+            if (isWeekend) {
+                document.getElementById('office-check').parentElement.style.display = 'none';
+            }
+
+            // Check if already submitted
+            const submitted = appData.checklistHistory && appData.checklistHistory[today];
+
+            if (submitted) {
+                document.getElementById('checklist-form').classList.add('hidden');
+                document.getElementById('submitted-message').classList.remove('hidden');
+                document.getElementById('status-banner').classList.remove('card-accent-yellow');
+                document.getElementById('status-banner').classList.add('card-accent-green');
+                document.getElementById('status-text').textContent = '[OK] Aaj ka checklist submit ho chuka hai.';
+                document.getElementById('status-text').classList.remove('text-yellow');
+                document.getElementById('status-text').classList.add('text-green');
+            } else if (hour >= CHECKLIST_START && hour < CHECKLIST_END) {
+                // Window open
+                document.getElementById('submit-btn').disabled = false;
+                document.getElementById('status-text').textContent = '[!] WINDOW OPEN - Submit your checklist now!';
+            } else if (hour < CHECKLIST_START) {
+                // Before window
+                document.getElementById('status-text').textContent = `[--] Window opens at 22:00. Current time: ${hour}:00`;
+            } else {
+                // After window
+                document.getElementById('status-banner').classList.remove('card-accent-yellow');
+                document.getElementById('status-banner').classList.add('card-accent-red');
+                document.getElementById('status-text').textContent = '[X] Window closed. Missed today\'s checklist.';
+                document.getElementById('status-text').classList.remove('text-yellow');
+                document.getElementById('status-text').classList.add('text-red');
+            }
+        }
+
+        document.getElementById('checklist-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const appData = JSON.parse(localStorage.getItem('appData'));
+            const today = new Date().toDateString();
+
+            // Count checkboxes
+            let completed = 0;
+            let total = 0;
+            const checkboxes = this.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                if (cb.parentElement.style.display !== 'none') {
+                    total++;
+                    if (cb.checked) completed++;
+                }
+            });
+
+            // Save checklist
+            if (!appData.checklistHistory) {
+                appData.checklistHistory = {};
+            }
+
+            // Get cigarette and satta SAVINGS (not wasted)
+            const noCigarette = formData.get('no_cigarette') === '1';
+            const noSatta = formData.get('no_satta') === '1';
+            const cigaretteSavings = noCigarette ? parseInt(formData.get('cigarette_savings') || 0) : 0;
+            const sattaSavings = noSatta ? parseInt(formData.get('satta_savings') || 0) : 0;
+
+            // Get study tracking
+            const studyDone = formData.get('study') === '1';
+            const studyMissed = formData.get('study_missed') === '1';
+            const studyMinutes = studyDone ? parseInt(formData.get('study_minutes') || 0) : 0;
+
+            appData.checklistHistory[today] = {
+                completed: completed,
+                total: total,
+                rating: formData.get('rating') || 5,
+                good_today: formData.get('good_today'),
+                improve_tomorrow: formData.get('improve_tomorrow'),
+                craving_handle: formData.get('craving_handle'),
+                cigarette_savings: cigaretteSavings,
+                satta_savings: sattaSavings,
+                no_cigarette: noCigarette,
+                no_satta: noSatta,
+                study_done: studyDone,
+                study_missed: studyMissed,
+                study_minutes: studyMinutes,
+                submittedAt: new Date().toISOString()
+            };
+
+            // Update completed days
+            if (!appData.completedDays.includes(appData.currentDay)) {
+                appData.completedDays.push(appData.currentDay);
+            }
+
+            localStorage.setItem('appData', JSON.stringify(appData));
+
+            showNotification('CHECKLIST SUBMITTED! Rest well.', 'success');
+
+            setTimeout(() => {
+                initChecklist();
+            }, 1000);
+        });
+
+        // Checkbox visual feedback
+        document.querySelectorAll('.checkbox-item input').forEach(input => {
+            input.addEventListener('change', function () {
+                if (this.checked) {
+                    this.parentElement.classList.add('checked');
+                } else {
+                    this.parentElement.classList.remove('checked');
+                }
+            });
+        });
+
+        // Toggle cigarette input visibility
+        document.getElementById('no-cigarette-check').addEventListener('change', function () {
+            const inputDiv = document.getElementById('cigarette-input');
+            if (this.checked) {
+                inputDiv.style.display = 'none';
+            } else {
+                inputDiv.style.display = 'block';
+            }
+        });
+
+        // Toggle satta input visibility
+        document.getElementById('no-satta-check').addEventListener('change', function () {
+            const inputDiv = document.getElementById('satta-input');
+            if (this.checked) {
+                inputDiv.style.display = 'none';
+            } else {
+                inputDiv.style.display = 'block';
+            }
+        });
+
+        initChecklist();
+    </script>
+</body>
+
+</html>

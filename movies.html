@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROTOCOL: REBOOT - Movies & Content</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="dashboard.html" class="header-brand">// PROTOCOL: REBOOT</a>
+            <nav class="header-nav">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="routine.html">Routine</a>
+                <a href="checklist.html">Checklist</a>
+                <a href="learning.html">Learning</a>
+                <a href="movies.html" class="active">Movies</a>
+                <a href="progress.html">Progress</a>
+            </nav>
+            <div class="header-stats">
+                <div class="stat-box">
+                    <div class="stat-label">Day</div>
+                    <div class="stat-value success" id="day-display">1</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Streak</div>
+                    <div class="stat-value success" id="streak-display">0</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
+        <!-- Title -->
+        <div class="card mb-lg text-center">
+            <h2 class="text-green">APPROVED CONTENT</h2>
+            <p class="text-muted mt-sm">Movies | Podcasts | Knowledge Videos</p>
+            <p class="text-yellow mt-sm">Friday & Saturday Only | 3 per Movie Day</p>
+        </div>
+
+        <!-- Access Check -->
+        <div id="access-denied" class="card card-accent-red mb-xl hidden">
+            <div class="card-header">[!] ACCESS DENIED</div>
+            <p class="text-red">Movies sirf Friday aur Saturday ko allowed hain!</p>
+            <p class="text-muted mt-sm">Aaj: <span id="today-day">--</span></p>
+            <p class="text-muted">Next movie day: <span id="next-movie-day">--</span></p>
+        </div>
+
+        <div id="access-granted" class="card card-accent-green mb-xl hidden">
+            <div class="card-header">[OK] ACCESS GRANTED</div>
+            <p class="text-green">Aaj movie day hai! Choose wisely - max 3 allowed.</p>
+        </div>
+
+        <!-- Movie Calendar -->
+        <div id="movies-content">
+            <div class="card card-accent-blue mb-xl">
+                <div class="card-header">[*] MOVIE CALENDAR - NEXT 8 WEEKS</div>
+                <p class="text-muted">Dec 2024 - Feb 2025 | Every Fri & Sat</p>
+                <div id="movie-calendar" class="mt-lg"></div>
+            </div>
+
+            <!-- Life-Changing Sci-Fi Movies -->
+            <div class="mb-xl">
+                <h3 class="text-blue mb-lg">[*] LIFE-CHANGING SCI-FI (23 Movies)</h3>
+                <div class="grid grid-auto">
+                    <div class="movie-card">
+                        <h4 class="movie-title">Inception</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 8.8</span>
+                            <span>2010</span>
+                            <span>148 min</span>
+                        </div>
+                        <p class="movie-why">"Reality is not what it seems. Control your dreams, control your life."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">The Matrix</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 8.7</span>
+                            <span>1999</span>
+                            <span>136 min</span>
+                        </div>
+                        <p class="movie-why">"Red pill or blue pill? Break free from the system."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Interstellar</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 8.6</span>
+                            <span>2014</span>
+                            <span>169 min</span>
+                        </div>
+                        <p class="movie-why">"Love transcends time and space. Never give up on family."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">2001: A Space Odyssey</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 8.3</span>
+                            <span>1968</span>
+                            <span>139 min</span>
+                        </div>
+                        <p class="movie-why">"Human evolution and AI. The journey of mankind."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Blade Runner 2049</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 8.0</span>
+                            <span>2017</span>
+                            <span>164 min</span>
+                        </div>
+                        <p class="movie-why">"What makes us human? Identity and purpose."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Ex Machina</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 7.7</span>
+                            <span>2014</span>
+                            <span>108 min</span>
+                        </div>
+                        <p class="movie-why">"AI consciousness. Question everything."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Arrival</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 7.9</span>
+                            <span>2016</span>
+                            <span>116 min</span>
+                        </div>
+                        <p class="movie-why">"Language shapes thought. Embrace the unknown."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Gattaca</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 7.8</span>
+                            <span>1997</span>
+                            <span>106 min</span>
+                        </div>
+                        <p class="movie-why">"Genetic perfection vs human spirit. Never accept limits."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">The Martian</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 8.0</span>
+                            <span>2015</span>
+                            <span>144 min</span>
+                        </div>
+                        <p class="movie-why">"Science your way out of problems. Never give up."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Her</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 8.0</span>
+                            <span>2013</span>
+                            <span>126 min</span>
+                        </div>
+                        <p class="movie-why">"Connection in digital age. Love and loneliness."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Moon</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 7.9</span>
+                            <span>2009</span>
+                            <span>97 min</span>
+                        </div>
+                        <p class="movie-why">"Isolation and identity. Who are you really?"</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Minority Report</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 7.6</span>
+                            <span>2002</span>
+                            <span>145 min</span>
+                        </div>
+                        <p class="movie-why">"Free will vs destiny. You choose your future."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Eternal Sunshine of the Spotless Mind</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 8.3</span>
+                            <span>2004</span>
+                            <span>108 min</span>
+                        </div>
+                        <p class="movie-why">"Memory and love. Embrace your past."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">The Prestige</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 8.5</span>
+                            <span>2006</span>
+                            <span>130 min</span>
+                        </div>
+                        <p class="movie-why">"Obsession and sacrifice. How far will you go?"</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Contact</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 7.5</span>
+                            <span>1997</span>
+                            <span>150 min</span>
+                        </div>
+                        <p class="movie-why">"Science and faith. Believe in something bigger."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Edge of Tomorrow</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 7.9</span>
+                            <span>2014</span>
+                            <span>113 min</span>
+                        </div>
+                        <p class="movie-why">"Learn from failure. Get better every day."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">District 9</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 7.9</span>
+                            <span>2009</span>
+                            <span>112 min</span>
+                        </div>
+                        <p class="movie-why">"Humanity and empathy. We are all aliens."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Gravity</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 7.7</span>
+                            <span>2013</span>
+                            <span>91 min</span>
+                        </div>
+                        <p class="movie-why">"Survival against all odds. Keep fighting."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">The Truman Show</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 8.1</span>
+                            <span>1998</span>
+                            <span>103 min</span>
+                        </div>
+                        <p class="movie-why">"Reality is constructed. Seek the truth."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Solaris</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 8.1</span>
+                            <span>1972</span>
+                            <span>167 min</span>
+                        </div>
+                        <p class="movie-why">"Consciousness and memory. Inner space exploration."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Annihilation</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 6.8</span>
+                            <span>2018</span>
+                            <span>115 min</span>
+                        </div>
+                        <p class="movie-why">"Self-destruction and transformation."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">WALL-E</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 8.4</span>
+                            <span>2008</span>
+                            <span>98 min</span>
+                        </div>
+                        <p class="movie-why">"Love and hope in a broken world."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Dune (2021)</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 8.0</span>
+                            <span>2021</span>
+                            <span>155 min</span>
+                        </div>
+                        <p class="movie-why">"Destiny and leadership. Accept your calling."</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Motivational Movies -->
+            <div class="mb-xl">
+                <h3 class="text-green mb-lg">[*] MOTIVATIONAL MOVIES (10 Movies)</h3>
+                <div class="grid grid-auto">
+                    <div class="movie-card">
+                        <h4 class="movie-title">The Pursuit of Happyness</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 8.0</span>
+                            <span>2006</span>
+                            <span>117 min</span>
+                        </div>
+                        <p class="movie-why">"Never give up on your dreams. True story."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Whiplash</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 8.5</span>
+                            <span>2014</span>
+                            <span>106 min</span>
+                        </div>
+                        <p class="movie-why">"The price of greatness. Push your limits."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Rocky</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 8.1</span>
+                            <span>1976</span>
+                            <span>120 min</span>
+                        </div>
+                        <p class="movie-why">"It's not about how hard you hit..."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">The Social Network</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 7.8</span>
+                            <span>2010</span>
+                            <span>120 min</span>
+                        </div>
+                        <p class="movie-why">"Build something from nothing."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Good Will Hunting</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 8.3</span>
+                            <span>1997</span>
+                            <span>126 min</span>
+                        </div>
+                        <p class="movie-why">"Potential vs fear. Break your barriers."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Dangal</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 8.3</span>
+                            <span>2016</span>
+                            <span>161 min</span>
+                        </div>
+                        <p class="movie-why">"Discipline, hard work, defying society."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">3 Idiots</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 8.4</span>
+                            <span>2009</span>
+                            <span>170 min</span>
+                        </div>
+                        <p class="movie-why">"Follow your passion. All is well."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">The Shawshank Redemption</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 9.3</span>
+                            <span>1994</span>
+                            <span>142 min</span>
+                        </div>
+                        <p class="movie-why">"Hope is a good thing. Never lose it."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Forrest Gump</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 8.8</span>
+                            <span>1994</span>
+                            <span>142 min</span>
+                        </div>
+                        <p class="movie-why">"Life is like a box of chocolates."</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">The Dark Knight</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">IMDb: 9.0</span>
+                            <span>2008</span>
+                            <span>152 min</span>
+                        </div>
+                        <p class="movie-why">"You either die a hero or live long enough..."</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hindi Podcasts -->
+            <div class="mb-xl">
+                <h3 class="text-purple mb-lg">[*] HINDI PODCASTS (Daily Inspiration)</h3>
+                <div class="grid grid-auto">
+                    <div class="movie-card">
+                        <h4 class="movie-title">Ranveer Allahbadia (BeerBiceps)</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">Life Advice</span>
+                            <span>Hindi</span>
+                        </div>
+                        <p class="movie-why">"Success, spirituality, business - Indian perspective"</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">The Prakhar ke Pravachan</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">Motivation</span>
+                            <span>Hindi</span>
+                        </div>
+                        <p class="movie-why">"Raw, honest life lessons for young Indians"</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Raj Shamani Show</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">Business</span>
+                            <span>Hindi</span>
+                        </div>
+                        <p class="movie-why">"Entrepreneurship and personal growth"</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Sandeep Maheshwari</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">Motivation</span>
+                            <span>Hindi</span>
+                        </div>
+                        <p class="movie-why">"Aasan hai! Simple life wisdom"</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Gaur Gopal Das</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">Spirituality</span>
+                            <span>Hindi/English</span>
+                        </div>
+                        <p class="movie-why">"Monk wisdom for modern life"</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Hitesh Choudhary</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">Tech + Life</span>
+                            <span>Hindi</span>
+                        </div>
+                        <p class="movie-why">"Chai aur Code - Tech career guidance"</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Knowledge Videos -->
+            <div class="mb-xl">
+                <h3 class="text-yellow mb-lg">[*] KNOWLEDGE VIDEOS (Learn Daily)</h3>
+                <div class="grid grid-auto">
+                    <div class="movie-card">
+                        <h4 class="movie-title">Dhruv Rathee</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">Current Affairs</span>
+                            <span>Hindi</span>
+                        </div>
+                        <p class="movie-why">"Fact-based analysis of world events"</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Think School</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">Business Case Studies</span>
+                            <span>Hindi</span>
+                        </div>
+                        <p class="movie-why">"How big companies succeed and fail"</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Science is Dope</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">Science</span>
+                            <span>Hindi</span>
+                        </div>
+                        <p class="movie-why">"Scientific thinking and rationality"</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Nitish Rajput</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">History/Current</span>
+                            <span>Hindi</span>
+                        </div>
+                        <p class="movie-why">"Deep dive into history and current affairs"</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Prashant Dhawan (StudyIQ)</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">Education</span>
+                            <span>Hindi</span>
+                        </div>
+                        <p class="movie-why">"Current affairs with educational value"</p>
+                    </div>
+                    <div class="movie-card">
+                        <h4 class="movie-title">Shwetabh Gangwar</h4>
+                        <div class="movie-meta">
+                            <span class="movie-imdb">Psychology</span>
+                            <span>Hindi</span>
+                        </div>
+                        <p class="movie-why">"Understanding human behavior and mind"</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rules -->
+            <div class="card card-accent-yellow">
+                <div class="card-header">[!] CONTENT RULES</div>
+                <ul style="padding-left: 1.5rem; line-height: 2;">
+                    <li>Movies sirf Friday aur Saturday ko - max 3 total</li>
+                    <li>Sunday = NO MOVIES (kal office hai)</li>
+                    <li>Podcasts aur knowledge videos daily allowed</li>
+                    <li>Night checklist submit karna mat bhoolo</li>
+                    <li>Porn/Adult content = INSTANT PENALTY</li>
+                    <li>Random YouTube scrolling = DANGER ZONE</li>
+                </ul>
+            </div>
+        </div>
+
+        <a href="dashboard.html" class="btn btn-outline btn-block mt-xl">BACK TO DASHBOARD</a>
+    </main>
+
+    <!-- Clock Widget -->
+    <div class="clock-widget">
+        <div class="clock-time" id="clock-time">--:--:--</div>
+        <div class="clock-date" id="clock-date">Loading...</div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="js/script.js"></script>
+    <script>
+        checkLogin();
+
+        // Clock update
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const mins = String(now.getMinutes()).padStart(2, '0');
+            const secs = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock-time').textContent = `${hours}:${mins}:${secs}`;
+
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            document.getElementById('clock-date').textContent = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]}`;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        function initMovies() {
+            const appData = JSON.parse(localStorage.getItem('appData'));
+            const today = new Date();
+            const dayOfWeek = today.getDay();
+            const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+            document.getElementById('day-display').textContent = appData.currentDay;
+            document.getElementById('streak-display').textContent = appData.streak;
+
+            // Check if movie day (Friday = 5, Saturday = 6)
+            if (dayOfWeek === 5 || dayOfWeek === 6) {
+                document.getElementById('access-granted').classList.remove('hidden');
+            } else {
+                document.getElementById('access-denied').classList.remove('hidden');
+                document.getElementById('today-day').textContent = dayNames[dayOfWeek];
+
+                // Calculate next movie day
+                let daysUntilFriday = (5 - dayOfWeek + 7) % 7;
+                if (daysUntilFriday === 0) daysUntilFriday = 7;
+                document.getElementById('next-movie-day').textContent = `Friday (${daysUntilFriday} days)`;
+
+                // Dim the movies content
+                document.getElementById('movies-content').style.opacity = '0.5';
+                document.getElementById('movies-content').style.pointerEvents = 'none';
+            }
+
+            // Generate movie calendar for next 8 weeks
+            generateMovieCalendar();
+        }
+
+        function generateMovieCalendar() {
+            const container = document.getElementById('movie-calendar');
+            let html = '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">';
+
+            const movies = [
+                // Week 1 (Dec 6-7)
+                { date: 'Dec 6 (Fri)', movie: 'Inception', type: 'Sci-Fi' },
+                { date: 'Dec 7 (Sat)', movie: 'The Pursuit of Happyness', type: 'Motivation' },
+                // Week 2 (Dec 13-14)
+                { date: 'Dec 13 (Fri)', movie: 'The Matrix', type: 'Sci-Fi' },
+                { date: 'Dec 14 (Sat)', movie: 'Whiplash', type: 'Motivation' },
+                // Week 3 (Dec 20-21)
+                { date: 'Dec 20 (Fri)', movie: 'Interstellar', type: 'Sci-Fi' },
+                { date: 'Dec 21 (Sat)', movie: 'Dangal', type: 'Motivation' },
+                // Week 4 (Dec 27-28)
+                { date: 'Dec 27 (Fri)', movie: 'Blade Runner 2049', type: 'Sci-Fi' },
+                { date: 'Dec 28 (Sat)', movie: '3 Idiots', type: 'Motivation' },
+                // Week 5 (Jan 3-4)
+                { date: 'Jan 3 (Fri)', movie: 'Ex Machina', type: 'Sci-Fi' },
+                { date: 'Jan 4 (Sat)', movie: 'The Shawshank Redemption', type: 'Motivation' },
+                // Week 6 (Jan 10-11)
+                { date: 'Jan 10 (Fri)', movie: 'Arrival', type: 'Sci-Fi' },
+                { date: 'Jan 11 (Sat)', movie: 'Good Will Hunting', type: 'Motivation' },
+                // Week 7 (Jan 17-18)
+                { date: 'Jan 17 (Fri)', movie: 'Gattaca', type: 'Sci-Fi' },
+                { date: 'Jan 18 (Sat)', movie: 'Rocky', type: 'Motivation' },
+                // Week 8 (Jan 24-25)
+                { date: 'Jan 24 (Fri)', movie: 'The Martian', type: 'Sci-Fi' },
+                { date: 'Jan 25 (Sat)', movie: 'Forrest Gump', type: 'Motivation' }
+            ];
+
+            movies.forEach(m => {
+                const typeColor = m.type === 'Sci-Fi' ? 'text-blue' : 'text-green';
+                html += `
+                    <div style="background: var(--bg-secondary); padding: 0.75rem; border-radius: var(--radius-sm); border-left: 3px solid ${m.type === 'Sci-Fi' ? 'var(--accent-blue)' : 'var(--accent-green)'};">
+                        <div class="text-muted" style="font-size: 0.8rem;">${m.date}</div>
+                        <div style="font-weight: 600;">${m.movie}</div>
+                        <div class="${typeColor}" style="font-size: 0.8rem;">${m.type}</div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        initMovies();
+    </script>
+</body>
+
+</html>

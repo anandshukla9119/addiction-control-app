@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROTOCOL: REBOOT - Progress</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="dashboard.html" class="header-brand">// PROTOCOL: REBOOT</a>
+            <nav class="header-nav">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="routine.html">Routine</a>
+                <a href="checklist.html">Checklist</a>
+                <a href="learning.html">Learning</a>
+                <a href="movies.html">Movies</a>
+                <a href="progress.html" class="active">Progress</a>
+            </nav>
+            <div class="header-stats">
+                <div class="stat-box">
+                    <div class="stat-label">Day</div>
+                    <div class="stat-value success" id="day-display">1</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Streak</div>
+                    <div class="stat-value success" id="streak-display">0</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
+        <!-- Title -->
+        <div class="card mb-lg text-center">
+            <h2 class="text-green">PROGRESS TRACKER</h2>
+            <p class="text-muted mt-sm">Your 120-Day Transformation Journey</p>
+        </div>
+
+        <!-- Main Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card card-accent-green">
+                <div class="stat-card-value text-green" id="total-days">0</div>
+                <div class="stat-card-label">Days Completed</div>
+            </div>
+            <div class="stat-card card-accent-blue">
+                <div class="stat-card-value text-blue" id="current-streak">0</div>
+                <div class="stat-card-label">Current Streak</div>
+            </div>
+            <div class="stat-card card-accent-yellow">
+                <div class="stat-card-value text-yellow" id="best-streak">0</div>
+                <div class="stat-card-label">Best Streak</div>
+            </div>
+            <div class="stat-card card-accent-red">
+                <div class="stat-card-value text-red" id="total-breaks">0</div>
+                <div class="stat-card-label">Addiction Breaks</div>
+            </div>
+        </div>
+
+        <div class="grid grid-2 mt-xl">
+            <!-- Program Progress -->
+            <div class="card card-accent-green">
+                <div class="card-header">[*] PROGRAM PROGRESS</div>
+                <div class="mt-md">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span>Day <span id="prog-current">1</span> of 60</span>
+                        <span class="text-green" id="prog-percent">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="prog-bar" style="width: 0%;"></div>
+                    </div>
+                </div>
+                <p class="text-muted mt-md" id="days-remaining">60 days remaining</p>
+            </div>
+
+            <!-- Learning Progress -->
+            <div class="card card-accent-blue">
+                <div class="card-header">[*] LEARNING PROGRESS</div>
+                <div class="mt-md">
+                    <p class="mb-sm"><strong>Python:</strong> <span id="python-percent">0%</span></p>
+                    <div class="progress-bar mb-md">
+                        <div class="progress-fill" id="python-bar" style="width: 0%; background: var(--accent-blue);">
+                        </div>
+                    </div>
+                    <p class="mb-sm"><strong>GenAI:</strong> <span id="genai-percent">0%</span></p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="genai-bar" style="width: 0%; background: var(--accent-purple);">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Money Saved Calculator -->
+        <div class="card card-accent-yellow mt-xl">
+            <div class="card-header"><i class="fa-solid fa-piggy-bank"></i> PAISE BACHAYE</div>
+            <div class="grid grid-2 mt-md">
+                <div>
+                    <p class="text-muted">Cigarette Free Days</p>
+                    <p style="font-size: 1.5rem; font-family: var(--font-mono);">
+                        <span class="text-green" id="cigs-avoided">0</span> days
+                    </p>
+                    <p class="text-green" style="font-size: 1.2rem;">Saved: Rs. <span id="cig-money">0</span></p>
+                </div>
+                <div>
+                    <p class="text-muted">Satta Free Days</p>
+                    <p style="font-size: 1.5rem; font-family: var(--font-mono);">
+                        <span class="text-green" id="satta-days">0</span> days
+                    </p>
+                    <p class="text-green" style="font-size: 1.2rem;">Saved: Rs. <span id="satta-money">0</span></p>
+                </div>
+            </div>
+            <div class="mt-lg"
+                style="text-align: center; padding: 1rem; background: rgba(0, 255, 65, 0.1); border-radius: var(--radius-md);">
+                <p class="text-muted">TOTAL PAISE BACHAYE 💰</p>
+                <p class="text-green" style="font-size: 2rem; font-family: var(--font-mono);">Rs. <span
+                        id="total-money">0</span></p>
+            </div>
+        </div>
+
+        <!-- Achievements -->
+        <div class="card card-accent-purple mt-xl">
+            <div class="card-header">[*] ACHIEVEMENTS</div>
+            <div class="grid grid-auto mt-md" id="achievements-grid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- 120-Day Calendar -->
+        <div class="card mt-xl">
+            <div class="card-header">[*] 120-DAY CALENDAR</div>
+            <div class="calendar-grid mt-md" id="calendar-grid">
+                <!-- Populated by JS -->
+            </div>
+            <div class="mt-md" style="display: flex; gap: 1rem; font-size: 0.85rem;">
+                <span><span style="color: var(--accent-green);">[ ]</span> Completed</span>
+                <span><span style="color: var(--accent-yellow);">[>]</span> Current</span>
+                <span><span style="color: var(--text-muted);">[ ]</span> Pending</span>
+                <span><span style="color: var(--accent-red);">[X]</span> Missed</span>
+            </div>
+        </div>
+
+        <!-- Weekly Summary -->
+        <div class="card card-accent-blue mt-xl">
+            <div class="card-header">[*] WEEKLY PERFORMANCE</div>
+            <div id="weekly-summary" class="mt-md">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <a href="dashboard.html" class="btn btn-outline btn-block mt-xl">BACK TO DASHBOARD</a>
+    </main>
+
+    <!-- Clock Widget -->
+    <div class="clock-widget">
+        <div class="clock-time" id="clock-time">--:--:--</div>
+        <div class="clock-date" id="clock-date">Loading...</div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <style>
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 0.5rem;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .calendar-day.completed {
+            background: rgba(0, 255, 65, 0.1);
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .calendar-day.current {
+            background: rgba(252, 238, 10, 0.1);
+            border-color: var(--accent-yellow);
+            color: var(--accent-yellow);
+            box-shadow: 0 0 10px rgba(252, 238, 10, 0.3);
+        }
+
+        .calendar-day.missed {
+            background: rgba(255, 0, 60, 0.1);
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        .achievement-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            text-align: center;
+        }
+
+        .achievement-item.unlocked {
+            border-color: var(--accent-green);
+            background: rgba(0, 255, 65, 0.05);
+        }
+
+        .achievement-item.locked {
+            opacity: 0.5;
+        }
+
+        .achievement-name {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        .achievement-icon {
+            font-size: 1.5rem;
+            color: var(--accent-yellow);
+        }
+
+        @media (max-width: 768px) {
+            .calendar-grid {
+                grid-template-columns: repeat(6, 1fr);
+            }
+        }
+    </style>
+
+    <script src="js/script.js"></script>
+    <script>
+        checkLogin();
+
+        // Clock update
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const mins = String(now.getMinutes()).padStart(2, '0');
+            const secs = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock-time').textContent = `${hours}:${mins}:${secs}`;
+
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            document.getElementById('clock-date').textContent = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]}`;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        const ACHIEVEMENTS = [
+            { id: 'day1', name: "FIRST STEP", desc: "Complete Day 1", days: 1 },
+            { id: 'week1', name: "SURVIVOR", desc: "Complete Week 1", days: 7 },
+            { id: 'week2', name: "FIGHTER", desc: "Complete Week 2", days: 14 },
+            { id: 'week3', name: "HABIT FORMED", desc: "21 Days - Habit Milestone", days: 21 },
+            { id: 'month1', name: "MONTHLY MASTER", desc: "30 Days Clean", days: 30 },
+            { id: 'python', name: "PYTHON WARRIOR", desc: "Complete Python Phase", days: 45 },
+            { id: 'day60', name: "UNSTOPPABLE", desc: "60 Days - Two Months Strong", days: 60 },
+            { id: 'day90', name: "ELITE", desc: "90 Days - Three Months Champion", days: 90 },
+            { id: 'complete', name: "LEGEND", desc: "120 Days - Ultimate Transformation", days: 120 }
+        ];
+
+        const CIG_PACK_COST = 250; // Rs per pack
+        const CIG_PACKS_PER_DAY = 0.5; // Assume half pack per day
+        const SATTA_PER_DAY = 200; // Rs assumed satta spending per day
+
+        function initProgress() {
+            const appData = JSON.parse(localStorage.getItem('appData'));
+            const currentDay = appData.currentDay;
+
+            document.getElementById('day-display').textContent = currentDay;
+            document.getElementById('streak-display').textContent = appData.streak;
+
+            // Main stats
+            document.getElementById('total-days').textContent = currentDay;
+            document.getElementById('current-streak').textContent = appData.streak;
+            document.getElementById('best-streak').textContent = appData.bestStreak || appData.streak;
+            document.getElementById('total-breaks').textContent = appData.addictionBreaks || 0;
+
+            // Program progress
+            const progPercent = Math.round((currentDay / 60) * 100);
+            document.getElementById('prog-current').textContent = currentDay;
+            document.getElementById('prog-percent').textContent = progPercent + '%';
+            document.getElementById('prog-bar').style.width = progPercent + '%';
+            document.getElementById('days-remaining').textContent = (60 - currentDay) + ' days remaining';
+
+            // Learning progress
+            const pythonPercent = Math.min(100, Math.round((currentDay / 45) * 100));
+            const genaiPercent = currentDay > 45 ? Math.round(((currentDay - 45) / 15) * 100) : 0;
+            document.getElementById('python-percent').textContent = pythonPercent + '%';
+            document.getElementById('python-bar').style.width = pythonPercent + '%';
+            document.getElementById('genai-percent').textContent = genaiPercent + '%';
+            document.getElementById('genai-bar').style.width = genaiPercent + '%';
+
+            // Money saved - Calculate from checklist history
+            let totalCigSavings = 0;
+            let totalSattaSavings = 0;
+            let cleanDays = 0;
+            let sattaFreeDays = 0;
+            let totalStudyMinutes = 0;
+            let studyDays = 0;
+            let missedStudyDays = 0;
+
+            if (appData.checklistHistory) {
+                Object.values(appData.checklistHistory).forEach(entry => {
+                    // Savings tracking
+                    if (entry.cigarette_savings) {
+                        totalCigSavings += entry.cigarette_savings;
+                    }
+                    if (entry.satta_savings) {
+                        totalSattaSavings += entry.satta_savings;
+                    }
+                    if (entry.no_cigarette) cleanDays++;
+                    if (entry.no_satta) sattaFreeDays++;
+
+                    // Learning tracking
+                    if (entry.study_done) studyDays++;
+                    if (entry.study_missed) missedStudyDays++;
+                    if (entry.study_minutes) totalStudyMinutes += entry.study_minutes;
+                });
+            }
+
+            // Display money stats
+            document.getElementById('cigs-avoided').textContent = cleanDays;
+            document.getElementById('cig-money').textContent = totalCigSavings.toLocaleString();
+            document.getElementById('satta-days').textContent = sattaFreeDays;
+            document.getElementById('satta-money').textContent = totalSattaSavings.toLocaleString();
+
+            const totalSaved = totalCigSavings + totalSattaSavings;
+            document.getElementById('total-money').textContent = totalSaved.toLocaleString();
+
+            // Achievements
+            renderAchievements(currentDay);
+
+            // Calendar
+            renderCalendar(currentDay, appData.completedDays || []);
+
+            // Weekly summary
+            renderWeeklySummary(appData);
+
+            // Learning stats (store in appData for learning page)
+            appData.learningStats = {
+                totalMinutes: totalStudyMinutes,
+                studyDays: studyDays,
+                missedDays: missedStudyDays
+            };
+            localStorage.setItem('appData', JSON.stringify(appData));
+        }
+
+        function renderAchievements(currentDay) {
+            const container = document.getElementById('achievements-grid');
+
+            // Badge image paths for each achievement
+            const badgeImages = {
+                'day1': 'images/badges/badge_day1.png',
+                'week1': 'images/badges/badge_week1.png',
+                'week2': 'images/badges/badge_week2.png',
+                'week3': 'images/badges/badge_week3.png',
+                'month1': 'images/badges/badge_month1.png',
+                'python': 'images/badges/badge_python.png',
+                'day60': 'images/badges/badge_day60.png',
+                'day90': 'images/badges/badge_day90.png',
+                'complete': 'images/badges/badge_legend.png'
+            };
+
+            container.innerHTML = ACHIEVEMENTS.map(ach => {
+                const unlocked = currentDay >= ach.days;
+                const badgeSrc = badgeImages[ach.id] || 'images/badges/badge_day1.png';
+                const opacity = unlocked ? '1' : '0.3';
+                const filter = unlocked ? 'none' : 'grayscale(100%)';
+                return `
+                    <div class="achievement-item ${unlocked ? 'unlocked' : 'locked'}">
+                        <img src="${badgeSrc}" alt="${ach.name}" style="width: 120px; height: 120px; border-radius: 50%; opacity: ${opacity}; filter: ${filter};">
+                        <div class="achievement-name">${ach.name}</div>
+                        <div class="text-muted" style="font-size: 0.75rem;">${ach.desc}</div>
+                        <div class="${unlocked ? 'text-green' : 'text-muted'}" style="font-size: 0.75rem;">${unlocked ? '[UNLOCKED]' : 'Day ' + ach.days}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderCalendar(currentDay, completedDays) {
+            const container = document.getElementById('calendar-grid');
+            let html = '';
+
+            for (let day = 1; day <= 120; day++) {
+                let status = '';
+                if (day < currentDay) {
+                    status = completedDays.includes(day) ? 'completed' : 'missed';
+                } else if (day === currentDay) {
+                    status = 'current';
+                }
+
+                html += `<div class="calendar-day ${status}">${day}</div>`;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function renderWeeklySummary(appData) {
+            const container = document.getElementById('weekly-summary');
+            const currentDay = appData.currentDay;
+            const currentWeek = Math.ceil(currentDay / 7);
+
+            let html = '<div class="grid grid-auto">';
+
+            for (let week = 1; week <= Math.ceil(120 / 7); week++) {
+                const startDay = (week - 1) * 7 + 1;
+                const endDay = Math.min(week * 7, 120);
+                let status = 'pending';
+
+                if (week < currentWeek) {
+                    status = 'completed';
+                } else if (week === currentWeek) {
+                    status = 'current';
+                }
+
+                // Classic theme colors
+                const bgColor = status === 'completed' ? 'rgba(0, 255, 65, 0.1)' : (status === 'current' ? 'rgba(252, 238, 10, 0.1)' : 'var(--bg-card)');
+                const borderColor = status === 'completed' ? 'var(--accent-green)' : (status === 'current' ? 'var(--accent-yellow)' : 'var(--border-color)');
+                const textColor = status === 'completed' ? 'var(--accent-green)' : (status === 'current' ? 'var(--accent-yellow)' : 'var(--text-muted)');
+
+                // Terminal style symbols
+                const weekNum = String(week).padStart(2, '0');
+                const symbol = status === 'completed' ? '[OK]' : (status === 'current' ? '[>>]' : '[' + weekNum + ']');
+
+                html += `
+                    <div style="background: ${bgColor}; padding: 0.75rem; border-radius: var(--radius-md); border: 1px solid ${borderColor}; text-align: center;">
+                        <div style="font-size: 1.2rem; font-family: var(--font-mono); font-weight: bold; color: ${textColor};">${symbol}</div>
+                        <div style="font-family: var(--font-mono); font-size: 0.85rem; color: ${textColor};">W${week}</div>
+                        <div class="text-muted" style="font-size: 0.7rem;">Day ${startDay}-${endDay}</div>
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        initProgress();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROTOCOL: REBOOT - Learning Track</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .phase-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .phase-tab {
+            flex: 1;
+            padding: 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .phase-tab:hover {
+            border-color: var(--accent-green);
+        }
+
+        .phase-tab.active {
+            border-color: var(--accent-green);
+            background: rgba(0, 255, 65, 0.05);
+        }
+
+        .phase-tab.active .phase-name {
+            color: var(--accent-green);
+        }
+
+        .phase-name {
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .phase-progress {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .week-section {
+            margin-bottom: 2rem;
+        }
+
+        .week-title {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .topic-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .topic-card:hover {
+            border-color: var(--border-light);
+            transform: translateX(4px);
+        }
+
+        .topic-card.current {
+            border-left: 4px solid var(--accent-green);
+            background: rgba(0, 255, 65, 0.05);
+        }
+
+        .topic-card.completed {
+            border-left: 4px solid var(--accent-blue);
+            opacity: 0.7;
+        }
+
+        .topic-day {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--accent-green);
+            min-width: 60px;
+        }
+
+        .topic-name {
+            flex: 1;
+            margin-left: 1rem;
+        }
+
+        .topic-status {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+        }
+
+        .topic-status.done {
+            color: var(--accent-green);
+        }
+
+        .topic-status.current {
+            color: var(--accent-yellow);
+        }
+
+        .topic-status.pending {
+            color: var(--text-muted);
+        }
+
+        .today-focus {
+            background: linear-gradient(135deg, rgba(0, 255, 65, 0.1), rgba(0, 212, 255, 0.1));
+            border: 2px solid var(--accent-green);
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="dashboard.html" class="header-brand">// PROTOCOL: REBOOT</a>
+            <nav class="header-nav">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="routine.html">Routine</a>
+                <a href="checklist.html">Checklist</a>
+                <a href="learning.html" class="active">Learning</a>
+                <a href="movies.html">Movies</a>
+                <a href="progress.html">Progress</a>
+            </nav>
+            <div class="header-stats">
+                <div class="stat-box">
+                    <div class="stat-label">Day</div>
+                    <div class="stat-value success" id="day-display">1</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Streak</div>
+                    <div class="stat-value success" id="streak-display">0</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
+        <!-- Title -->
+        <div class="card mb-lg text-center">
+            <h2 class="text-green">LEARNING TRACK</h2>
+            <p class="text-muted mt-sm">120-Day Transformation: Python + GenAI</p>
+        </div>
+
+        <!-- Today's Focus -->
+        <div class="card today-focus mb-xl">
+            <div class="card-header">[!] TODAY'S FOCUS - DAY <span id="today-day">1</span></div>
+            <div id="today-content">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- Phase Tabs -->
+        <div class="phase-tabs">
+            <div class="phase-tab active" id="python-tab" onclick="showPhase('python')">
+                <div class="phase-name">PYTHON</div>
+                <div class="phase-progress">Day 1-45</div>
+                <div class="progress-bar mt-sm">
+                    <div class="progress-fill" id="python-progress" style="width: 0%;"></div>
+                </div>
+            </div>
+            <div class="phase-tab" id="genai-tab" onclick="showPhase('genai')">
+                <div class="phase-name">GEN AI</div>
+                <div class="phase-progress">Day 46-120</div>
+                <div class="progress-bar mt-sm">
+                    <div class="progress-fill" id="genai-progress" style="width: 0%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Python Content -->
+        <div id="python-content">
+            <!-- Week 1 -->
+            <div class="week-section">
+                <div class="week-title">[*] WEEK 1: PYTHON BASICS</div>
+                <div id="week1-topics"></div>
+            </div>
+
+            <!-- Week 2 -->
+            <div class="week-section">
+                <div class="week-title">[*] WEEK 2: DATA STRUCTURES</div>
+                <div id="week2-topics"></div>
+            </div>
+
+            <!-- Week 3 -->
+            <div class="week-section">
+                <div class="week-title">[*] WEEK 3: CONTROL FLOW + FUNCTIONS</div>
+                <div id="week3-topics"></div>
+            </div>
+
+            <!-- Week 4 -->
+            <div class="week-section">
+                <div class="week-title">[*] WEEK 4: OOP + MODULES</div>
+                <div id="week4-topics"></div>
+            </div>
+
+            <!-- Week 5-6 -->
+            <div class="week-section">
+                <div class="week-title">[*] WEEK 5-6: ADVANCED + PROJECTS</div>
+                <div id="week5-topics"></div>
+            </div>
+        </div>
+
+        <!-- GenAI Content -->
+        <div id="genai-content" class="hidden">
+            <div class="week-section">
+                <div class="week-title">[*] GENAI DEEP DIVE</div>
+                <div id="genai-topics"></div>
+            </div>
+        </div>
+
+        <!-- Resources -->
+        <div class="card card-accent-blue mt-xl">
+            <div class="card-header">[*] RESOURCES</div>
+            <ul style="padding-left: 1.5rem; line-height: 2;">
+                <li>Python Official Docs: docs.python.org</li>
+                <li>W3Schools Python Tutorial</li>
+                <li>YouTube: Corey Schafer Python Series</li>
+                <li>LangChain Documentation</li>
+                <li>OpenAI API Documentation</li>
+            </ul>
+        </div>
+
+        <a href="dashboard.html" class="btn btn-outline btn-block mt-xl">BACK TO DASHBOARD</a>
+    </main>
+
+    <!-- Clock Widget -->
+    <div class="clock-widget">
+        <div class="clock-time" id="clock-time">--:--:--</div>
+        <div class="clock-date" id="clock-date">Loading...</div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="js/script.js"></script>
+    <script>
+        checkLogin();
+
+        // Clock update
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const mins = String(now.getMinutes()).padStart(2, '0');
+            const secs = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock-time').textContent = `${hours}:${mins}:${secs}`;
+
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            document.getElementById('clock-date').textContent = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]}`;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        const PYTHON_TOPICS = {
+            week1: [
+                { day: 1, topic: "Python Install + Setup", goal: "Environment ready" },
+                { day: 2, topic: "Variables + Data Types", goal: "int, str, float, bool" },
+                { day: 3, topic: "Operators", goal: "Arithmetic, Comparison, Logical" },
+                { day: 4, topic: "Strings Basics", goal: "String creation + slicing" },
+                { day: 5, topic: "String Methods", goal: "upper, lower, split, join" },
+                { day: 6, topic: "Practice Day", goal: "Week 1 exercises" },
+                { day: 7, topic: "Review + Quiz", goal: "Test your knowledge" }
+            ],
+            week2: [
+                { day: 8, topic: "Lists", goal: "Create, access, modify" },
+                { day: 9, topic: "List Methods", goal: "append, remove, sort" },
+                { day: 10, topic: "Tuples", goal: "Immutable sequences" },
+                { day: 11, topic: "Dictionaries", goal: "Key-value pairs" },
+                { day: 12, topic: "Dictionary Methods", goal: "keys, values, items" },
+                { day: 13, topic: "Sets", goal: "Unique collections" },
+                { day: 14, topic: "Practice + Review", goal: "Week 2 exercises" }
+            ],
+            week3: [
+                { day: 15, topic: "If-Else Statements", goal: "Conditional logic" },
+                { day: 16, topic: "For Loops", goal: "Iteration basics" },
+                { day: 17, topic: "While Loops", goal: "Condition-based loops" },
+                { day: 18, topic: "Functions Basics", goal: "def, return, call" },
+                { day: 19, topic: "Function Arguments", goal: "args, kwargs, defaults" },
+                { day: 20, topic: "Lambda Functions", goal: "Anonymous functions" },
+                { day: 21, topic: "Practice + Review", goal: "Week 3 exercises" }
+            ],
+            week4: [
+                { day: 22, topic: "File Handling", goal: "read, write, with" },
+                { day: 23, topic: "Exception Handling", goal: "try, except, finally" },
+                { day: 24, topic: "Modules + Import", goal: "Using modules" },
+                { day: 25, topic: "OOP - Classes", goal: "Class definition" },
+                { day: 26, topic: "OOP - Objects", goal: "Object creation" },
+                { day: 27, topic: "OOP - Inheritance", goal: "Parent-child classes" },
+                { day: 28, topic: "Practice + Review", goal: "Week 4 exercises" }
+            ],
+            week5: [
+                { day: 29, topic: "Regular Expressions", goal: "Pattern matching" },
+                { day: 30, topic: "JSON Handling", goal: "Parse + create JSON" },
+                { day: 31, topic: "Requests Library", goal: "API calls" },
+                { day: 32, topic: "Web Scraping Basics", goal: "BeautifulSoup intro" },
+                { day: 33, topic: "Pandas Introduction", goal: "DataFrames" },
+                { day: 34, topic: "NumPy Introduction", goal: "Arrays" },
+                { day: 35, topic: "Data Visualization", goal: "Matplotlib basics" },
+                { day: 36, topic: "Project: Data Analysis", goal: "Real dataset" },
+                { day: 37, topic: "Project: Web Scraper", goal: "Scrape a website" },
+                { day: 38, topic: "Project: API Client", goal: "Build API client" },
+                { day: 39, topic: "Project: Automation", goal: "Automate a task" },
+                { day: 40, topic: "Review Day 1", goal: "Revise basics" },
+                { day: 41, topic: "Review Day 2", goal: "Revise advanced" },
+                { day: 42, topic: "Mini Project 1", goal: "Build something" },
+                { day: 43, topic: "Mini Project 2", goal: "Build something" },
+                { day: 44, topic: "Final Python Project", goal: "Capstone project" },
+                { day: 45, topic: "Python Completion", goal: "Celebrate + prep for GenAI" }
+            ]
+        };
+
+        const GENAI_TOPICS = [
+            // Week 1: GenAI Basics (Day 46-52)
+            { day: 46, topic: "GenAI Introduction", goal: "What is GenAI?" },
+            { day: 47, topic: "LLMs Basics", goal: "How LLMs work" },
+            { day: 48, topic: "Prompt Engineering", goal: "Craft effective prompts" },
+            { day: 49, topic: "OpenAI API", goal: "API integration" },
+            { day: 50, topic: "LangChain Basics", goal: "LangChain intro" },
+            { day: 51, topic: "LangChain Chains", goal: "Build chains" },
+            { day: 52, topic: "RAG Introduction", goal: "Retrieval Augmented Generation" },
+            // Week 2: Advanced Concepts (Day 53-59)
+            { day: 53, topic: "Vector Databases", goal: "Pinecone/Chroma" },
+            { day: 54, topic: "Embeddings", goal: "Text embeddings" },
+            { day: 55, topic: "Building Chatbots", goal: "Build a chatbot" },
+            { day: 56, topic: "Fine-tuning Basics", goal: "Model customization" },
+            { day: 57, topic: "Agents", goal: "AI agents intro" },
+            { day: 58, topic: "Multi-Agent Systems", goal: "Agent collaboration" },
+            { day: 59, topic: "GenAI Project 1", goal: "RAG application" },
+            // Week 3: Projects (Day 60-66)
+            { day: 60, topic: "GenAI Project 2", goal: "Agent application" },
+            { day: 61, topic: "Custom LLM Apps", goal: "Build custom LLM app" },
+            { day: 62, topic: "DeepSeek Models", goal: "Explore DeepSeek" },
+            { day: 63, topic: "Claude API", goal: "Anthropic integration" },
+            { day: 64, topic: "Gemini API", goal: "Google AI integration" },
+            { day: 65, topic: "Local LLMs", goal: "Ollama & local models" },
+            { day: 66, topic: "Multi-modal AI", goal: "Vision + Text" },
+            // Week 4-5: Advanced Projects (Day 67-80)
+            { day: 67, topic: "Voice AI", goal: "Speech synthesis" },
+            { day: 68, topic: "Document AI", goal: "PDF/Doc processing" },
+            { day: 69, topic: "Code Generation", goal: "AI coding assistants" },
+            { day: 70, topic: "AI Workflows", goal: "Complex pipelines" },
+            { day: 71, topic: "Production Deployment", goal: "Deploy AI apps" },
+            { day: 72, topic: "AI Security", goal: "Prompt injection prevention" },
+            { day: 73, topic: "Cost Optimization", goal: "Token management" },
+            { day: 74, topic: "Monitoring AI", goal: "Observability" },
+            { day: 75, topic: "Building SaaS", goal: "AI SaaS product" },
+            { day: 76, topic: "MCP Protocol", goal: "Model Context Protocol" },
+            { day: 77, topic: "Tool Use & Functions", goal: "Function calling" },
+            { day: 78, topic: "Structured Output", goal: "JSON mode" },
+            { day: 79, topic: "Streaming Responses", goal: "Real-time AI" },
+            { day: 80, topic: "Caching Strategies", goal: "Performance optimization" },
+            // Week 6-8: Expertise Building (Day 81-100)
+            { day: 81, topic: "Advanced RAG", goal: "Hybrid search" },
+            { day: 82, topic: "Knowledge Graphs", goal: "Graph + LLM" },
+            { day: 83, topic: "Memory Systems", goal: "Long-term memory" },
+            { day: 84, topic: "ReAct Pattern", goal: "Reasoning + Acting" },
+            { day: 85, topic: "Tree of Thoughts", goal: "Advanced reasoning" },
+            { day: 86, topic: "Self-Critique", goal: "AI self-improvement" },
+            { day: 87, topic: "Chain of Verification", goal: "Fact checking" },
+            { day: 88, topic: "Autonomous Agents", goal: "AutoGPT style" },
+            { day: 89, topic: "CrewAI", goal: "Multi-agent framework" },
+            { day: 90, topic: "LangGraph", goal: "Stateful agents" },
+            { day: 91, topic: "PEFT & LoRA", goal: "Efficient fine-tuning" },
+            { day: 92, topic: "DPO Training", goal: "Direct preference" },
+            { day: 93, topic: "RLHF Basics", goal: "Human feedback" },
+            { day: 94, topic: "Dataset Creation", goal: "Training data" },
+            { day: 95, topic: "Model Evaluation", goal: "Benchmarks" },
+            { day: 96, topic: "Prompt Libraries", goal: "Templates" },
+            { day: 97, topic: "AI Agents for Work", goal: "Productivity tools" },
+            { day: 98, topic: "AI Automation", goal: "Workflow automation" },
+            { day: 99, topic: "Building Products", goal: "AI product design" },
+            { day: 100, topic: "100-Day Milestone!", goal: "Celebrate + review" },
+            // Week 9-10: Mastery (Day 101-120)
+            { day: 101, topic: "Advanced Project 1", goal: "Full AI solution" },
+            { day: 102, topic: "Advanced Project 2", goal: "Complex system" },
+            { day: 103, topic: "Advanced Project 3", goal: "Production ready" },
+            { day: 104, topic: "Open Source LLMs", goal: "Llama, Mistral" },
+            { day: 105, topic: "Model Comparison", goal: "Choose right model" },
+            { day: 106, topic: "AI Ethics", goal: "Responsible AI" },
+            { day: 107, topic: "Bias & Fairness", goal: "Ethical considerations" },
+            { day: 108, topic: "Enterprise AI", goal: "Business applications" },
+            { day: 109, topic: "AI Strategy", goal: "Implementation planning" },
+            { day: 110, topic: "Future Trends", goal: "What's next in AI" },
+            { day: 111, topic: "Portfolio Project 1", goal: "Showcase work" },
+            { day: 112, topic: "Portfolio Project 2", goal: "Advanced showcase" },
+            { day: 113, topic: "Portfolio Project 3", goal: "Full stack AI" },
+            { day: 114, topic: "Interview Prep", goal: "AI job readiness" },
+            { day: 115, topic: "System Design AI", goal: "Architecture patterns" },
+            { day: 116, topic: "Scaling AI", goal: "Large scale systems" },
+            { day: 117, topic: "MLOps Basics", goal: "AI operations" },
+            { day: 118, topic: "Continuous Learning", goal: "Stay updated" },
+            { day: 119, topic: "Community Building", goal: "Share knowledge" },
+            { day: 120, topic: "LEGEND COMPLETE!", goal: "120 Days - You are now AI Legend!" }
+        ];
+
+        function initLearning() {
+            const appData = JSON.parse(localStorage.getItem('appData'));
+            const currentDay = appData.currentDay;
+            const genaiDay = currentDay > 45 ? currentDay - 45 : 0;
+
+            document.getElementById('day-display').textContent = currentDay;
+            document.getElementById('streak-display').textContent = appData.streak;
+            document.getElementById('today-day').textContent = currentDay;
+
+            // Calculate progress
+            const pythonProgress = Math.min(100, Math.round((currentDay / 45) * 100));
+            // GenAI progress - 75 days (Day 46-120)
+            const genaiProgress = currentDay > 45 ? Math.min(100, Math.round((genaiDay / 75) * 100)) : 0;
+
+
+            document.getElementById('python-progress').style.width = pythonProgress + '%';
+            document.getElementById('genai-progress').style.width = genaiProgress + '%';
+
+            // Update tab text for days > 60
+            if (currentDay > 60) {
+                document.getElementById('genai-tab').querySelector('.phase-progress').textContent = `Day 46+ (Currently: ${genaiDay})`;
+            }
+
+            // Today's focus
+            let todayTopic;
+            if (currentDay <= 45) {
+                // Find Python topic
+                const allPython = [...PYTHON_TOPICS.week1, ...PYTHON_TOPICS.week2, ...PYTHON_TOPICS.week3, ...PYTHON_TOPICS.week4, ...PYTHON_TOPICS.week5];
+                todayTopic = allPython.find(t => t.day === currentDay);
+            } else if (currentDay <= 60) {
+                todayTopic = GENAI_TOPICS.find(t => t.day === currentDay);
+            } else {
+                // Beyond day 60 - GenAI continues with custom topics
+                const genaiCycleDay = ((genaiDay - 1) % 15) + 1; // Cycle back through topics
+                const cycledTopic = GENAI_TOPICS.find(t => t.day === 45 + genaiCycleDay);
+                todayTopic = {
+                    topic: `Advanced GenAI: ${cycledTopic ? cycledTopic.topic : 'Deep Dive'}`,
+                    goal: 'Continue building GenAI expertise - practice projects'
+                };
+            }
+
+            if (todayTopic) {
+                const isGenAI = currentDay > 45;
+                const phaseText = isGenAI ? 'GEN AI DEEP DIVE' : 'PYTHON MASTERY';
+                const continuedText = currentDay > 60 ? '<span class="text-yellow">(CONTINUED - Lifetime Learning!)</span>' : '';
+
+                document.getElementById('today-content').innerHTML = `
+                    <p><strong class="${isGenAI ? 'text-purple' : 'text-blue'}">${phaseText} ${continuedText}</strong></p>
+                    <p class="mt-sm" style="font-size: 1.2rem;"><strong>${todayTopic.topic}</strong></p>
+                    <p class="text-muted mt-sm">Goal: ${todayTopic.goal}</p>
+                    <p class="text-muted">Duration: ${currentDay <= 45 ? '45 minutes (weekday) / 2-3 hours (weekend)' : '1 hour (weekday) / 2-3 hours (weekend)'}</p>
+                    ${currentDay > 60 ? '<p class="text-green mt-sm">GenAI learning never stops! Day ' + genaiDay + ' of continuous learning.</p>' : ''}
+                `;
+            }
+
+            // Render topics
+            renderTopics('week1-topics', PYTHON_TOPICS.week1, currentDay);
+            renderTopics('week2-topics', PYTHON_TOPICS.week2, currentDay);
+            renderTopics('week3-topics', PYTHON_TOPICS.week3, currentDay);
+            renderTopics('week4-topics', PYTHON_TOPICS.week4, currentDay);
+            renderTopics('week5-topics', PYTHON_TOPICS.week5, currentDay);
+            renderTopics('genai-topics', GENAI_TOPICS, currentDay);
+
+            // Show correct phase
+            if (currentDay > 45) {
+                showPhase('genai');
+            }
+        }
+
+        function renderTopics(containerId, topics, currentDay) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = topics.map(topic => {
+                let statusClass = 'pending';
+                let statusText = '[  ]';
+
+                if (topic.day < currentDay) {
+                    statusClass = 'completed';
+                    statusText = '[OK]';
+                } else if (topic.day === currentDay) {
+                    statusClass = 'current';
+                    statusText = '[>>]';
+                }
+
+                return `
+                    <div class="topic-card ${topic.day === currentDay ? 'current' : ''} ${topic.day < currentDay ? 'completed' : ''}">
+                        <div class="topic-day">Day ${topic.day}</div>
+                        <div class="topic-name">
+                            <strong>${topic.topic}</strong>
+                            <br><span class="text-muted" style="font-size: 0.85rem;">${topic.goal}</span>
+                        </div>
+                        <div class="topic-status ${statusClass}">${statusText}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function showPhase(phase) {
+            const pythonContent = document.getElementById('python-content');
+            const genaiContent = document.getElementById('genai-content');
+            const pythonTab = document.getElementById('python-tab');
+            const genaiTab = document.getElementById('genai-tab');
+
+            if (phase === 'python') {
+                pythonContent.classList.remove('hidden');
+                genaiContent.classList.add('hidden');
+                pythonTab.classList.add('active');
+                genaiTab.classList.remove('active');
+            } else {
+                pythonContent.classList.add('hidden');
+                genaiContent.classList.remove('hidden');
+                pythonTab.classList.remove('active');
+                genaiTab.classList.add('active');
+            }
+        }
+
+        initLearning();
+    </script>
+</body>
+
+</html>

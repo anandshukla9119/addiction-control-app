@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROTOCOL: REBOOT - PENALTY</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap"
+        rel="stylesheet">
+    <style>
+        .penalty-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-primary);
+            padding: 2rem;
+        }
+
+        .penalty-container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .penalty-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .penalty-title {
+            font-family: var(--font-mono);
+            font-size: 3rem;
+            color: var(--accent-red);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            animation: glitch 1s infinite;
+        }
+
+        @keyframes glitch {
+
+            0%,
+            90%,
+            100% {
+                text-shadow: -2px 0 var(--accent-red), 2px 0 var(--accent-blue);
+            }
+
+            95% {
+                text-shadow: 2px 0 var(--accent-red), -2px 0 var(--accent-blue);
+            }
+        }
+
+        .penalty-message {
+            background: var(--bg-card);
+            border: 2px solid var(--accent-red);
+            padding: 2rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 2rem;
+        }
+
+        .penalty-text {
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+            line-height: 2;
+            color: var(--accent-red);
+        }
+
+        .penalty-text .typewriter {
+            overflow: hidden;
+            border-right: 2px solid var(--accent-red);
+            white-space: nowrap;
+            animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink-caret {
+
+            from,
+            to {
+                border-color: transparent;
+            }
+
+            50% {
+                border-color: var(--accent-red);
+            }
+        }
+
+        .consequence-box {
+            background: rgba(255, 0, 60, 0.1);
+            border: 1px solid var(--accent-red);
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 2rem;
+        }
+
+        .consequence-title {
+            font-family: var(--font-mono);
+            color: var(--accent-red);
+            margin-bottom: 1rem;
+        }
+
+        .consequence-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .consequence-list li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+        }
+
+        .consequence-list li::before {
+            content: "[X] ";
+            color: var(--accent-red);
+        }
+
+        .penalty-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .penalty-stat {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            text-align: center;
+            border-radius: var(--radius-md);
+        }
+
+        .penalty-stat-value {
+            font-family: var(--font-mono);
+            font-size: 2rem;
+            color: var(--accent-red);
+        }
+
+        .penalty-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .restart-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .restart-title {
+            font-family: var(--font-mono);
+            color: var(--accent-yellow);
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="penalty-screen">
+        <div class="penalty-container">
+            <div class="penalty-header">
+                <h1 class="penalty-title">// PENALTY //</h1>
+                <p class="text-muted mt-sm">Protocol Violation Detected</p>
+            </div>
+
+            <div class="penalty-message">
+                <div id="brutal-message" class="penalty-text">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <div class="consequence-box">
+                <h3 class="consequence-title">[!] CONSEQUENCES</h3>
+                <ul class="consequence-list" id="consequences">
+                    <li>Streak reset to 0</li>
+                    <li>Penalty level increased</li>
+                    <li>Addiction break counted</li>
+                    <li>Progress marked as incomplete</li>
+                    <li>Trust with yourself broken</li>
+                </ul>
+            </div>
+
+            <div class="penalty-stats">
+                <div class="penalty-stat">
+                    <div class="penalty-stat-value" id="new-streak">0</div>
+                    <div class="penalty-stat-label">New Streak</div>
+                </div>
+                <div class="penalty-stat">
+                    <div class="penalty-stat-value" id="total-breaks">0</div>
+                    <div class="penalty-stat-label">Total Breaks</div>
+                </div>
+                <div class="penalty-stat">
+                    <div class="penalty-stat-value" id="penalty-level">0</div>
+                    <div class="penalty-stat-label">Penalty Level</div>
+                </div>
+            </div>
+
+            <div class="card card-accent-yellow">
+                <p class="text-yellow">
+                    "Jo gira wo tha - par jo uthega wo naya hoga. Har baar stronger."
+                </p>
+            </div>
+
+            <div class="restart-section">
+                <h3 class="restart-title">[*] READY TO RESTART?</h3>
+                <p class="text-muted mb-lg">
+                    Ek baar aur try kar. Haar maan lena option nahi hai.
+                </p>
+                <a href="dashboard.html" class="btn btn-success btn-lg">
+                    RESTART PROTOCOL
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="data/brutal-messages.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        const BRUTAL_MESSAGES = [
+            "Tu haar gaya. Phir se. Kitni baar aur?",
+            "Teri willpower itni kamzor hai? Seriously?",
+            "Ek cigarette ke liye sab barbaad kar diya.",
+            "Family ko kya bolega? 'Sorry, phir se fail ho gaya'?",
+            "Tune khud se promise toda. Khud se.",
+            "Is baar bhi excuse dhoond liya na?",
+            "Kab tak yahi cycle chalegi? Kab tak?",
+            "Champion banna tha, zero ban gaya.",
+            "60 din bhi nahi ruk saka?",
+            "Craving ne jeet li, tu haar gaya.",
+            "Paise waste, time waste, life waste.",
+            "Kal phir wahi regret, wahi guilt.",
+            "Discipline ka matlab nahi pata kya?",
+            "Abhi bhi time hai - agar himmat hai to.",
+            "Yeh addiction tujhe kha jayegi agar ruka nahi."
+        ];
+
+        function initPenalty() {
+            const appData = JSON.parse(localStorage.getItem('appData'));
+            const urlParams = new URLSearchParams(window.location.search);
+            const trigger = urlParams.get('trigger');
+
+            if (trigger === 'addiction') {
+                // Apply penalty
+                appData.streak = 0;
+                appData.addictionBreaks = (appData.addictionBreaks || 0) + 1;
+                appData.penaltyLevel = (appData.penaltyLevel || 0) + 1;
+                appData.lastStreakDate = null;
+
+                localStorage.setItem('appData', JSON.stringify(appData));
+            }
+
+            // Display stats
+            document.getElementById('new-streak').textContent = appData.streak;
+            document.getElementById('total-breaks').textContent = appData.addictionBreaks || 0;
+            document.getElementById('penalty-level').textContent = appData.penaltyLevel || 0;
+
+            // Display random brutal message
+            const randomMessage = BRUTAL_MESSAGES[Math.floor(Math.random() * BRUTAL_MESSAGES.length)];
+            typeMessage(randomMessage);
+
+            // Additional consequences based on break count
+            if (appData.addictionBreaks >= 5) {
+                const conseq = document.getElementById('consequences');
+                const nuclear = document.createElement('li');
+                nuclear.innerHTML = '<strong style="color: var(--accent-red);">NUCLEAR LEVEL - 5+ breaks detected</strong>';
+                conseq.appendChild(nuclear);
+            }
+        }
+
+        function typeMessage(message) {
+            const container = document.getElementById('brutal-message');
+            const lines = [
+                "> SYSTEM ALERT",
+                "> ADDICTION BREAK DETECTED",
+                "> " + message,
+                "> STREAK TERMINATED",
+                "> PENALTY APPLIED"
+            ];
+
+            container.innerHTML = '';
+
+            let lineIndex = 0;
+            let charIndex = 0;
+
+            function typeLine() {
+                if (lineIndex < lines.length) {
+                    if (charIndex === 0) {
+                        const lineDiv = document.createElement('div');
+                        lineDiv.className = 'line-' + lineIndex;
+                        container.appendChild(lineDiv);
+                    }
+
+                    const currentLine = container.querySelector('.line-' + lineIndex);
+                    currentLine.textContent = lines[lineIndex].substring(0, charIndex + 1);
+
+                    if (charIndex < lines[lineIndex].length) {
+                        charIndex++;
+                        setTimeout(typeLine, 30);
+                    } else {
+                        charIndex = 0;
+                        lineIndex++;
+                        setTimeout(typeLine, 200);
+                    }
+                }
+            }
+
+            typeLine();
+        }
+
+        initPenalty();
+    </script>
+</body>
+
+</html>

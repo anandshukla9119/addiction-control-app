@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROTOCOL: REBOOT - Login</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="auth-screen">
+        <div class="auth-container">
+            <h1 class="auth-title glitch-text" data-text="PROTOCOL: REBOOT">PROTOCOL: REBOOT</h1>
+            <p class="auth-subtitle">60 Din Mein Poori Kaaya Palat</p>
+
+            <form id="loginForm" class="auth-form">
+                <h3 class="text-center">ACCESS TERMINAL</h3>
+
+                <div class="form-group">
+                    <label class="form-label" for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-input" placeholder="ENTER EMAIL" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">Passphrase</label>
+                    <input type="password" id="password" name="password" class="form-input" placeholder="ENTER PASSWORD"
+                        required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">
+                    INITIALIZE SESSION
+                </button>
+
+                <p class="auth-switch">
+                    New User? <a href="signup.html">Create Identity</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Clock Widget -->
+    <div class="clock-widget">
+        <div class="clock-time" id="clock-time">--:--:--</div>
+        <div class="clock-date" id="clock-date">Loading...</div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Clock update
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const mins = String(now.getMinutes()).padStart(2, '0');
+            const secs = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock-time').textContent = `${hours}:${mins}:${secs}`;
+
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            document.getElementById('clock-date').textContent = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]}`;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const savedUser = JSON.parse(localStorage.getItem('user'));
+
+            if (savedUser && savedUser.email === email && savedUser.password === password) {
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('lastLogin', new Date().toISOString());
+                window.location.href = 'dashboard.html';
+            } else {
+                showNotification('ACCESS DENIED - Invalid credentials', 'error');
+            }
+        });
+
+        // Check if already logged in
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+</body>
+
+</html>
